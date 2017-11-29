@@ -1,0 +1,23 @@
+<h3>
+    {{title}}
+    <i class="fa fa-info-circle" title={{tooltip}}></i>
+    <span class="tooltip">{{tooltip}}</span>
+</h3>
+<div class="skills">
+  {{#if (is-pending skillsToDisplay) }}
+      <div class="loading">
+          <i class="fa fa-circle-o-notch fa-spin"></i>
+      </div>
+  {{else}}
+    {{#each (await skillsToDisplay) as |skill|}}
+      <span {{action "handleSkillClick" skill}}>{{await skill.localizedPrefLabel}}</span>
+    {{/each}}
+  {{/if}}
+</div>
+{{#if (await shadowSkills)}}
+    <div class="btn-toggle-more" {{action "toggleDetail"}} title={{toggleTooltip}}>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+{{/if}}

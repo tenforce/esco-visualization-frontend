@@ -1,0 +1,38 @@
+SELECT STR(?pt_en) AS ?pt_en STR(?lg) AS ?lg STR(?pt_lg) AS ?pt_lg URI(?link) AS ?link STR(?isco_code) AS ?isco_code STR(?isco_label) AS ?isco_label
+WHERE
+{
+	?concept a skos:Concept .
+	?concept a <http://data.europa.eu/esco/model#Occupation> .
+	?concept a <http://data.europa.eu/esco/model#MemberConcept> .
+	?concept <http://www.w3.org/2004/02/skos/core#inScheme> <http://data.europa.eu/esco/ConceptScheme/ESCO_Occupations> .
+	FILTER NOT EXISTS
+	{
+		?concept a <http://data.europa.eu/esco/model#GroupConcept> .
+	}
+
+	?concept <http://mu.semte.ch/vocabularies/core/uuid> ?uuid .
+
+	?concept <http://www.w3.org/2008/05/skos-xl#prefLabel> / <http://www.w3.org/2008/05/skos-xl#literalForm> ?pt_en.
+	FILTER(lang(?pt_en) = "en")
+
+	BIND(CONCAT("http://prerelease1.escoportal.eu/concepts/6b73f82c-2543-4a72-a86d-e988869df5ca/browse/", ?uuid) AS ?link)	
+	OPTIONAL
+	{
+		?concept <http://data.europa.eu/esco/model#memberOfISCOGroup> ?isco_group .
+		?isco_group <http://purl.org/dc/terms/identifier> ?isco_code .
+		FILTER(CONTAINS(?isco_code, "CTC") = false)
+		?isco_group <http://www.w3.org/2008/05/skos-xl#prefLabel> / <http://www.w3.org/2008/05/skos-xl#literalForm> ?isco_label.
+		FILTER(lang(?isco_label) = "en")
+	}
+
+	<http://mu.semte.ch/application> <http://translation.escoportal.eu/supportedLanguage> ?lg .
+
+	OPTIONAL
+	{
+		?concept <http://www.w3.org/2008/05/skos-xl#prefLabel> ?preflabel .
+		?preflabel a <http://www.w3.org/2008/05/skos-xl#Label> .
+		?preflabel <http://www.w3.org/2008/05/skos-xl#literalForm> ?pt_lg.
+		FILTER(lang(?pt_lg) = ?lg)
+	}
+}
+ORDER BY ?lg ?isco_code ?pt_en ?pt_lg

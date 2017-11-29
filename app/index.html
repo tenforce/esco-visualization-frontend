@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ESCO prerelease</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link sizes="196x196" href="assets/icons/favicon-196x196.png" type="image/png" rel="icon">
+    <link sizes="160x160" href="assets/icons/favicon-160x160.png" type="image/png" rel="icon">
+    <link sizes="96x96" href="assets/icons/favicon-96x96.png" type="image/png" rel="icon">
+    <link sizes="16x16" href="assets/icons/favicon-16x16.png" type="image/png" rel="icon">
+    <link sizes="32x32" href="assets/icons/favicon-32x32.png" type="image/png" rel="icon">
+    {{content-for 'head'}}
+
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,700,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/visualization-tool-ui.css">
+
+    <script>
+      /*
+       This dirty hack is necessary because AngularJs does not yet support XHR2.
+       It is however available on the unstable 1.1.x branch: https://github.com/angular/angular.js/issues/1013
+
+       Normally XHR replaces "invalid" string chars with FFFD, so it destroys binary data. OverrideMimeType prevents this.
+       For more info on XHR2 see See http://www.html5rocks.com/en/tutorials/file/xhr2/ and http://caniuse.com/xhr2
+
+       NOTE!
+       Replacing window.XMLHttpRequest affects all downloads, so if a document or a servers response contains an invalid char this will not be replaced and could cause problems.
+       But text data shouldn't contain such chars in the first place.
+       */
+//      if (window.XMLHttpRequest) {
+//        var originalXHR = window.XMLHttpRequest;
+//        window.XMLHttpRequest = function () {
+//          var xhr = new originalXHR();
+//          xhr.overrideMimeType('application/json; charset=x-user-defined');
+//          return xhr;
+//        }
+//      }
+
+      function datastringAsBlob(data, acceptType) {
+        function byteValue(x) {
+          return x.charCodeAt(0) & 0xff;
+        }
+
+        var ords = Array.prototype.map.call(data, byteValue);
+        var bytes = new Uint8Array(ords);
+        return new Blob([bytes], {type: acceptType});
+      }
+    </script>
+
+    {{content-for 'head-footer'}}
+  </head>
+  <body>
+    {{content-for 'body'}}
+
+    <script src="assets/vendor.js"></script>
+    <script src="assets/visualization-tool-ui.js"></script>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
+    <script src="assets/mousetrap.min.js"></script>
+
+    {{content-for 'body-footer'}}
+    <noscript>
+      It seems javascript is disabled in your browser, please note that javascript is required for the esco visualization tool.
+    </noscript>
+  </body>
+</html>

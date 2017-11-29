@@ -1,0 +1,19 @@
+<div class="error">
+    {{#if title}}
+        <h1>{{parsedTitle}}</h1>
+    {{/if}}
+
+    {{#if reason}}
+        <p>{{parsedReason}}</p>
+    {{/if}}
+
+    {{#if origin}}
+        <p>Origin : <a href="{{origin}}">{{origin}}</a></p>
+    {{/if}}
+
+    {{#if message}}
+        <p>{{parsedMessage}}</p>
+    {{/if}}
+    
+    <button class="btn" {{action "returnToIndex"}}>Return to homepage</button>
+</div>

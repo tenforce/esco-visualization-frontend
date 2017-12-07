@@ -13,7 +13,7 @@ Concept = DS.Model.extend ESCO.Concept,
   scopeNote: DS.attr('lang-string-set')
   defaultScopeNote: Ember.computed 'scopeNote.@each.language', ->
     @get('scopeNote')?.filterBy('language', @get('defaultLanguage'))?.get('firstObject.content')
-  taxonomies: DS.hasMany('taxonomy', {inverse:null})
+  taxonomies: DS.hasMany('concept-scheme', {inverse:null})
   isco: DS.belongsTo('concept', {inverse: null})
   iscoValue: Ember.computed 'taxonomies', ->
     @get('taxonomies').then (hierarchies) =>

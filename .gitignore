@@ -20,3 +20,4 @@ testem.log
 
 # intellij
 .idea
+package-lock.json

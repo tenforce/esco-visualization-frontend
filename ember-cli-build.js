@@ -4,10 +4,10 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
-    // Add options here
+    sassOptions: {implementation: require("sass")}
   });
 
-  app.import('bower_components/file-saver/FileSaver.js');
+  //app.import('bower_components/file-saver/FileSaver.js');
 
   // Use `app.import` to add additional libraries to the generated
   // output files.
